@@ -15,7 +15,10 @@ function Backup-PersonalLog {
 			ParameterSetName = "Directory")]
 		[String] $Path = $Env:PERSONALLOG_CACHEDIRECTORY,
 
+		[ValidateNotNullOrEmpty()]
 		[String] $Region = $Env:PERSONALLOG_AWSREGION,
+
+		[ValidateNotNullOrEmpty()]
 		[String] $TableName = $Env:PERSONALLOG_TABLENAME
 	)
 

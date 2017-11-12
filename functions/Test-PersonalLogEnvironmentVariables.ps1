@@ -16,7 +16,9 @@ function Test-PersonalLogEnvironmentVariables {
 			Write-Verbose "$var = $value"
 		}
 	}
-	@( "PERSONALLOG_DEFAULTTAGS" ) | %{
+	@(
+		"PERSONALLOG_DEFAULTTAGS",
+	 	"PERSONALLOG_TIMEINDEX" ) | %{
 		$var = $_
 		if ( ! ( $value = [environment]::GetEnvironmentVariable( $var ) ) ) {
 			Write-Verbose "$var not set"

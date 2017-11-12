@@ -9,9 +9,4 @@ class PersonalLog {
 		$this.Id = ( New-Guid ).Guid
 		$this.Time = Get-Date
 	}
-
-	PersonalLog( [DateTime] $time ){
-		$this.Id = ( New-Guid ).Guid
-		$this.Time = $time
-	}
 }
