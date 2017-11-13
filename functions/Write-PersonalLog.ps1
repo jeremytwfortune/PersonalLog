@@ -6,6 +6,8 @@ function Write-PersonalLog {
 		[Parameter(Position = 2)]
 		[String[]] $Tags,
 
+		[Guid] $Id,
+
 		[DateTime] $Time,
 
 		[String] $Location = $Env:PERSONALLOG_LOCATION,
@@ -26,6 +28,7 @@ function Write-PersonalLog {
 		}
 	}
 	$newLogParameters = @{}
+	if ( $Id ) { $newLogParameters.Id = $Id }
 	if ( $Entry ) { $newLogParameters.Entry = $Entry }
 	if ( $Tags ) { $newLogParameters.Tags = $Tags }
 	if ( $Time ) { $newLogParameters.Time = $Time }
