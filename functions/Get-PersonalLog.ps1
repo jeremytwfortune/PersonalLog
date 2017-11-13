@@ -34,10 +34,12 @@ function Get-PersonalLog {
 		$client = New-Object Amazon.DynamoDbv2.AmazonDynamoDbClient( $regionEndpoint )
 		$table = [Amazon.DynamoDbv2.DocumentModel.Table]::LoadTable( $client, $TableName )
 
-		$dynamoLogs = @()
+		$logs = @()
 		if ( $PSCmdlet.ParameterSetName -Eq "Id" ) {
 			$result = $table.GetItem( $Id )
-			$dynamoLogs += $result.Items
+			if ( $result ) {
+				$logs += New-PersonalLog -Json "$( $result.ToJson() )" -Utc
+			}
 		} else {
 			$filter = New-Object Amazon.DynamoDbv2.DocumentModel.ScanFilter
 
@@ -54,12 +56,15 @@ function Get-PersonalLog {
 					$tag )
 			}
 			$result = $table.Scan( $filter )
+			$dynamoLogs = @()
 			$dynamoLogs += $result.GetRemaining()
+			if ( $dynamoLogs ) {
+				$dynamoLogs | % {
+					$logs += New-PersonalLog -Json "$( $_.ToJson() )" -Utc
+				}
+			}
 		}
-		$logs = @()
-		$dynamoLogs | % {
-			$logs += New-PersonalLog -Json "$( $_.ToJson() )" -Utc
-		}
+
 		$logs
 	}
 
